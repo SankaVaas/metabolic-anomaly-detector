@@ -1,0 +1,39 @@
+# MetabolicAnomalyDetector Configuration
+model:
+  name: "GluFormer"
+  d_model: 512
+  n_heads: 8
+  n_layers: 6
+  dropout: 0.1
+  max_seq_len: 288  # 48 hours at 10-min intervals
+
+data:
+  sample_rate_minutes: 10
+  window_size: 288  # 48 hours
+  prediction_horizon: 12  # 2 hours ahead
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+
+training:
+  batch_size: 32
+  epochs: 100
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  gradient_clip: 1.0
+
+detection:
+  discordance_threshold: 2.5  # standard deviations above baseline error
+  pre_diabetic_auc_target: 0.92
+
+sensors:
+  non_invasive:
+    - ppg
+    - gsr
+    - raman  # optional
+  fusion_method: "fbt"  # Fourier-Bessel Transform
+
+federated:
+  enabled: true
+  num_clients: 5
+  rounds: 50

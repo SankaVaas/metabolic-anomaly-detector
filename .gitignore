@@ -1,42 +1,56 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
 
-# Node
-/diabetes-prediction-app/node_modules
-npm-debug.log
-yarn-error.log
-
-# IDEs and editors
+# IDE
+.vscode/
 .idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+*.swp
+*.swo
 
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+# Jupyter notebooks
+.ipynb_checkpoints/
+*.ipynb
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Data files (raw/processed)
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.h5
+*.npy
 
-# System files
+# Models / checkpoints
+models/checkpoints/
+*.pth
+*.pt
+*.bin
+
+# Logs & outputs
+logs/
+*.log
+outputs/
+
+# Environment variables
+.env
+.env.local
+
+# OS garbage
 .DS_Store
 Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets / keys
+*.key
+*.pem
