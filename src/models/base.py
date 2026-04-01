@@ -80,20 +80,26 @@ class BaseModel(nn.Module, ABC):
             return self.forward(x, sensors)
 
 if __name__ == "__main__":
-    # Quick smoke test – check if abstract class can be instantiated with a dummy implementation
+    # Quick smoke test – corrected dummy model
     class DummyModel(BaseModel):
         def _build_model(self):
+            # Project from sequence length to d_model
+            self.proj = nn.Linear(self.config['seq_len'], self.config['d_model'])
+            # Final prediction layer
             self.fc = nn.Linear(self.config['d_model'], self.config.get('pred_horizon', 12))
         
         def forward(self, x, sensors=None):
             # x shape: [batch, seq_len]
-            # For dummy, we just take the last value and pass through linear
-            last_val = x[:, -1:]  # [batch, 1]
-            return self.fc(last_val)
+            x = self.proj(x)  # [batch, d_model]
+            return self.fc(x)  # [batch, pred_horizon]
     
-    config = {'d_model': 512, 'pred_horizon': 12}
+    config = {
+        'd_model': 512,
+        'seq_len': 288,      # must match the dummy input's sequence length
+        'pred_horizon': 12
+    }
     model = DummyModel(config)
-    dummy_input = torch.randn(4, 288)  # batch=4, seq_len=288
+    dummy_input = torch.randn(4, config['seq_len'])  # batch=4, seq_len=288
     output = model(dummy_input)
     print(f"BaseModel smoke test passed: output shape {output.shape}")
-    print(f"Expected: [4, 12]")
+    print(f"Expected: [4, {config['pred_horizon']}]")
