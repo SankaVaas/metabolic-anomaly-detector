@@ -48,9 +48,9 @@ class GluFormer(BaseModel):
         dropout = self.model_config.get('dropout', 0.1)
         seq_len = self.data_config.get('window_size', 288)
         pred_horizon = self.data_config.get('prediction_horizon', 12)
-        sensor_features = self.model_config.get('sensor_features', 3)  # default: HR, HRV, GSR
+        sensor_features = self.model_config.get('sensor_features', 4)   # Now reads from config
         
-        # Input embedding: we have glucose (1 value per time step) + sensor features
+        # Input embedding: glucose (1) + sensor features
         input_dim = 1 + sensor_features
         self.input_proj = nn.Linear(input_dim, d_model)
         
@@ -77,6 +77,7 @@ class GluFormer(BaseModel):
         self.d_model = d_model
         self.pred_horizon = pred_horizon
         self.seq_len = seq_len
+        self.sensor_features = sensor_features
     
     def forward(self, x: torch.Tensor, sensors: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
