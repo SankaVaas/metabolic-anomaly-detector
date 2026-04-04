@@ -10,7 +10,7 @@ model:
 
 training:
   batch_size: 64        # was 32
-  epochs: 5             # start small
+  epochs: 100            # start small
   learning_rate: 0.001  # slightly higher for smaller model
   weight_decay: 0.01
 
