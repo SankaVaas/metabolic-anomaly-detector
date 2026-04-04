@@ -83,7 +83,7 @@ def main():
     criterion = torch.nn.MSELoss()
     
     # Training loop (single epoch for testing)
-    epochs = 1  # For smoke test, just 1 epoch
+    epochs = 100  # For smoke test, just 1 epoch
     model.train()
     for epoch in range(epochs):
         total_loss = 0.0
