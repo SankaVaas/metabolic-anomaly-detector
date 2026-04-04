@@ -1,26 +1,26 @@
 # MetabolicAnomalyDetector Configuration
 model:
   name: "GluFormer"
-  d_model: 512
-  n_heads: 8
-  n_layers: 6
+  d_model: 128          # was 512
+  n_heads: 4            # was 8
+  n_layers: 2           # was 6
   dropout: 0.1
-  max_seq_len: 288  # 48 hours at 10-min intervals
+  max_seq_len: 288
+  sensor_features: 3
+
+training:
+  batch_size: 64        # was 32
+  epochs: 5             # start small
+  learning_rate: 0.001  # slightly higher for smaller model
+  weight_decay: 0.01
 
 data:
-  sample_rate_minutes: 10
-  window_size: 288  # 48 hours
-  prediction_horizon: 12  # 2 hours ahead
+  sample_rate_minutes: 5  # CGM data is typically every 5 minutes
+  window_size: 48  # 4 hours of data (48 * 5 min)
+  prediction_horizon: 12  # Predict 1 hour ahead (12 * 5 min)
   train_split: 0.7
   val_split: 0.15
   test_split: 0.15
-
-training:
-  batch_size: 32
-  epochs: 100
-  learning_rate: 0.0001
-  weight_decay: 0.01
-  gradient_clip: 1.0
 
 detection:
   discordance_threshold: 2.5  # standard deviations above baseline error
